@@ -1,0 +1,105 @@
+.navbar {
+    height: 80px;
+    background: #f8f8f8;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 10;
+}
+
+.nav-container {
+    width: 100%;
+    height: 100%;
+    padding: 0 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    color: #000000;
+    padding: 5px 15px;
+    font-weight: bold;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.call {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.icon {
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.icon:hover {
+    color: #e375dd;
+}
+
+.search-panel {
+    position: fixed;
+    top: 60px;
+    left: 0;
+
+    width: 100%;
+    height: 0;
+
+    background: white;
+
+    overflow: hidden;
+    opacity: 0;
+
+    transition: all 0.4s ease;
+
+    z-index: 999;
+}
+
+.search-panel.active {
+    height: calc(100vh - 60px);
+    opacity: 1;
+
+    padding: 40px 60px;
+
+    overflow-y: auto;
+}
+
+.search-big {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+}
+
+.search-results {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.product {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
