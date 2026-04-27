@@ -13,6 +13,7 @@
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/dto/UserDTO.java
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/repository/SupplierRepository.java
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/controller/ProductController.java
+/workspaces/SWI_Projekt/backend/src/main/java/com/eshop/config/DataInitializer.java
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/entity/Product.java
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/FashionEshopApplication.java
 /workspaces/SWI_Projekt/backend/src/main/java/com/eshop/repository/ProductAttributeRepository.java
