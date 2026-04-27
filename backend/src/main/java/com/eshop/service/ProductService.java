@@ -10,6 +10,7 @@ import com.eshop.repository.SupplierRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -95,18 +96,37 @@ public class ProductService {
      * Get products by price range
      */
     public List<ProductDTO> getByPriceRange(Double minPrice, Double maxPrice) {
-        return productRepository.findByPriceBetween(minPrice, maxPrice)
+        return productRepository.findByCenaBetween(minPrice, maxPrice)
                 .stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
     }
 
     /**
-     * Search products by name
+     * Search products by name (nazev)
      */
-    public List<ProductDTO> searchByName(String searchTerm) {
-        return productRepository.searchByName(searchTerm)
+    public List<ProductDTO> searchByNazev(String searchTerm) {
+        return productRepository.searchByNazev(searchTerm)
                 .stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Search and sort products
+     */
+    public List<ProductDTO> searchAndSort(String searchTerm, String sortBy, String sortDirection) {
+        Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortBy);
+        
+        List<Product> products;
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            products = productRepository.searchByNazev(searchTerm);
+        } else {
+            products = productRepository.findAll(sort);
+        }
+        
+        return products.stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
     }
@@ -130,8 +150,8 @@ public class ProductService {
     /**
      * Search products by name with pagination
      */
-    public Page<ProductDTO> searchByNamePaginated(String searchTerm, Pageable pageable) {
-        return productRepository.searchByNamePaginated(searchTerm, pageable)
+    public Page<ProductDTO> searchByNazevPaginated(String searchTerm, Pageable pageable) {
+        return productRepository.searchByNazevPaginated(searchTerm, pageable)
                 .map(this::entityToDTO);
     }
 
@@ -164,10 +184,10 @@ public class ProductService {
                         return Optional.empty();
                     }
 
-                    product.setName(productDTO.getName());
+                    product.setNazev(productDTO.getNazev());
                     product.setSlug(productDTO.getSlug());
-                    product.setPrice(productDTO.getPrice());
-                    product.setDescription(productDTO.getDescription());
+                    product.setCena(productDTO.getCena());
+                    product.setPopis(productDTO.getPopis());
                     product.setTag(productDTO.getTag());
                     product.setGender(productDTO.getGender());
                     product.setImageUrl(productDTO.getImageUrl());
@@ -196,15 +216,15 @@ public class ProductService {
     private ProductDTO entityToDTO(Product product) {
         return new ProductDTO(
                 product.getId(),
-                product.getName(),
+                product.getNazev(),
                 product.getSlug(),
-                product.getPrice(),
-                product.getDescription(),
+                product.getCena(),
+                product.getPopis(),
                 product.getTag(),
                 product.getGender(),
                 product.getImageUrl(),
                 product.getCategory() != null ? product.getCategory().getId() : null,
-                product.getCategory() != null ? product.getCategory().getName() : null,
+                product.getCategory() != null ? product.getCategory().getNazev() : null,
                 product.getSupplier() != null ? product.getSupplier().getId() : null,
                 product.getSupplier() != null ? product.getSupplier().getName() : null,
                 product.getAttributes() != null
@@ -221,16 +241,17 @@ public class ProductService {
     private Product dtoToEntity(ProductDTO productDTO, Category category, Supplier supplier) {
         return new Product(
                 productDTO.getId(),
-                productDTO.getName(),
+                productDTO.getNazev(),
                 productDTO.getSlug(),
-                productDTO.getPrice(),
-                productDTO.getDescription(),
+                productDTO.getCena(),
+                productDTO.getPopis(),
                 productDTO.getTag(),
                 productDTO.getGender(),
                 productDTO.getImageUrl(),
                 category,
                 supplier,
-                null // Attributes will be managed separately
+                null, // Attributes will be managed separately
+                null  // OrderItems will be managed separately
         );
     }
 

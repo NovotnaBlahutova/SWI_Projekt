@@ -66,7 +66,7 @@ public class CategoryService {
     public Optional<CategoryDTO> update(Long id, CategoryDTO categoryDTO) {
         return categoryRepository.findById(id)
                 .map(category -> {
-                    category.setName(categoryDTO.getName());
+                    category.setNazev(categoryDTO.getNazev());
                     category.setSlug(categoryDTO.getSlug());
                     category.setGender(categoryDTO.getGender());
                     category.setImageUrl(categoryDTO.getImageUrl());
@@ -92,7 +92,7 @@ public class CategoryService {
     private CategoryDTO entityToDTO(Category category) {
         return new CategoryDTO(
                 category.getId(),
-                category.getName(),
+                category.getNazev(),
                 category.getSlug(),
                 category.getGender(),
                 category.getImageUrl()
@@ -105,7 +105,7 @@ public class CategoryService {
     private Category dtoToEntity(CategoryDTO categoryDTO) {
         return new Category(
                 categoryDTO.getId(),
-                categoryDTO.getName(),
+                categoryDTO.getNazev(),
                 categoryDTO.getSlug(),
                 categoryDTO.getGender(),
                 categoryDTO.getImageUrl(),

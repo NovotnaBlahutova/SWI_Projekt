@@ -112,14 +112,33 @@ public class ProductController {
     }
 
     /**
-     * GET /api/products/search?query=X - Search products by name
+     * GET /api/products/search?query=X - Search products by name (nazev)
      */
     @GetMapping("/search")
     public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam String query) {
-        List<ProductDTO> products = productService.searchByName(query);
+        List<ProductDTO> products = productService.searchByNazev(query);
         if (products.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.ok(products);
+    }
+
+    /**
+     * GET /api/products/search-and-sort?query=X&sortBy=cena&sortDirection=ASC
+     * CRITICAL: Supports searching and sorting by price (cena) or name (nazev)
+     */
+    @GetMapping("/search-and-sort")
+    public ResponseEntity<List<ProductDTO>> searchAndSort(
+            @RequestParam(required = false) String query,
+            @RequestParam(defaultValue = "nazev") String sortBy,
+            @RequestParam(defaultValue = "ASC") String sortDirection) {
+        
+        // Validate sortBy parameter
+        if (!sortBy.equalsIgnoreCase("nazev") && !sortBy.equalsIgnoreCase("cena")) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        List<ProductDTO> products = productService.searchAndSort(query, sortBy, sortDirection);
         return ResponseEntity.ok(products);
     }
 
@@ -137,8 +156,6 @@ public class ProductController {
         if (gender != null && !gender.isEmpty()) {
             products = productService.getByGenderPaginated(gender, pageable);
         } else {
-            // For all products paginated, we need a repository method
-            // For now, return all products paginated (can be improved)
             products = productService.getByGenderPaginated(gender, pageable);
         }
 
@@ -167,7 +184,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<ProductDTO> products = productService.searchByNamePaginated(query, pageable);
+        Page<ProductDTO> products = productService.searchByNazevPaginated(query, pageable);
         return ResponseEntity.ok(products);
     }
 

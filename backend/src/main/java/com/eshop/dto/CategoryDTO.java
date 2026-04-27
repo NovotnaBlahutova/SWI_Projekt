@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CategoryDTO {
 
     private Long id;
-    private String name;
+    private String nazev;
     private String slug;
     private String gender;
     private String imageUrl;

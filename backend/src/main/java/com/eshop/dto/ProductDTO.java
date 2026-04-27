@@ -11,15 +11,15 @@ import java.util.Set;
 public class ProductDTO {
 
     private Long id;
-    private String name;
+    private String nazev;
     private String slug;
-    private Double price;
-    private String description;
+    private Double cena;
+    private String popis;
     private String tag;
     private String gender;
     private String imageUrl;
     private Long categoryId;
-    private String categoryName;
+    private String categoryNazev;
     private Long supplierId;
     private String supplierName;
     private Set<Long> attributeIds;
