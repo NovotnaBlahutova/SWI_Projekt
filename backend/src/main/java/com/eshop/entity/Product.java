@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Table(name = "products")
+@Table(name = "produkty")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,16 +18,16 @@ public class Product {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    private String name;
+    private String nazev;
 
     @Column(nullable = false, length = 255, unique = true)
     private String slug;
 
     @Column(nullable = false)
-    private Double price;
+    private Double cena;
 
     @Column(columnDefinition = "LONGTEXT")
-    private String description;
+    private String popis;
 
     @Column(length = 100)
     private String tag;
@@ -38,14 +38,17 @@ public class Product {
     @Column(nullable = false, length = 500)
     private String imageUrl;
 
+    // Many-to-One relationship with Category
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    // Many-to-One relationship with Supplier
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
+    // Many-to-Many relationship with ProductAttribute
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "product_attributes_mapping",
@@ -53,5 +56,9 @@ public class Product {
         inverseJoinColumns = @JoinColumn(name = "attribute_id")
     )
     private Set<ProductAttribute> attributes;
+
+    // One-to-Many relationship with OrderItem
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = false)
+    private Set<OrderItem> orderItems;
 
 }

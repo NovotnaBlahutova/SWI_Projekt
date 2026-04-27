@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "kategorie")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class Category {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    private String name;
+    private String nazev;
 
     @Column(nullable = false, length = 255, unique = true)
     private String slug;
@@ -29,6 +29,7 @@ public class Category {
     @Column(nullable = false, length = 500)
     private String imageUrl;
 
+    // One-to-Many relationship with Product
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Product> products;
 
