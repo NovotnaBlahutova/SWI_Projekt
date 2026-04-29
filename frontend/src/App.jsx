@@ -12,7 +12,6 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import Wishlist from "./pages/Wishlist";
 import Contact from "./pages/Contact";
 
 function App() {
@@ -40,8 +39,6 @@ function App() {
                 />
 
                 <Route path="/login" element={<Login />} />
-
-                <Route path="/wishlist" element={<Wishlist />} />
 
                 <Route path="/register" element={<Register />} />
 

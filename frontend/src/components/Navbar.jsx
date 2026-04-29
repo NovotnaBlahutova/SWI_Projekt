@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react";
 import {
     FaBars,
     FaSearch,
-    FaHeart,
     FaUser,
     FaShoppingBag,
     FaPhone,
@@ -57,10 +56,6 @@ function Navbar() {
                     <div className="nav-right">
                         <Link to="/contact">
                             <FaPhone className="icon" />
-                        </Link>
-
-                        <Link to="/wishlist">
-                            <FaHeart className="icon" />
                         </Link>
 
                         {user ? (

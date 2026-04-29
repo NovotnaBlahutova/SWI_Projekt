@@ -2,20 +2,13 @@ import "./Home.css";
 import video from "../assets/images/video.mp4";
 import summer from "../assets/images/summer_collection.jpg";
 
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { WishlistContext } from "../context/WishlistContext";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 function Home() {
-    const navigate = useNavigate();
-
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-
-    const { wishlist, toggleWishlist } = useContext(WishlistContext);
-    const { user } = useContext(AuthContext);
 
     // FETCH PRODUCTS
     useEffect(() => {
@@ -33,7 +26,7 @@ function Home() {
             .catch(err => console.error(err));
     }, []);
 
-    // 🎲 RANDOM PRODUKTY (bez duplicit)
+    // RANDOM PRODUKTY
     const shuffled = [...products].sort(() => 0.5 - Math.random());
     const presale = shuffled.slice(0, 3);
     const bestsellers = shuffled.slice(3, 6);
@@ -91,47 +84,22 @@ function Home() {
                 <h2 className="mb-4 text-center">Pre-sale produkty</h2>
 
                 <div className="row row-cols-1 row-cols-md-3 g-5">
-                    {presale.map((product) => {
-                        const isInWishlist = wishlist.some(p => p.id === product.id);
-
-                        return (
-                            <div className="col" key={product.id}>
-                                <Link
-                                    to={`/product/${product.slug}`}
-                                    style={{ textDecoration: "none", color: "inherit" }}
-                                >
-                                    <div className="card product-card" style={{ position: "relative" }}>
-
-                                        {/* wishlist */}
-                                        <div
-                                            className="wishlist-icon"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-
-                                                if (!user) {
-                                                    navigate("/login");
-                                                    return;
-                                                }
-
-                                                toggleWishlist(product);
-                                            }}
-                                        >
-                                            {isInWishlist ? <FaHeart /> : <FaRegHeart />}
-                                        </div>
-
-                                        <img src={product.obrazek} alt={product.nazev} />
-
-                                        <div className="card-body text-center">
-                                            <h5>{product.nazev}</h5>
-                                            <p className="price">{product.cena} Kč</p>
-                                        </div>
-
+                    {presale.map((product) => (
+                        <div className="col" key={product.id}>
+                            <Link
+                                to={`/product/${product.slug}`}
+                                style={{ textDecoration: "none", color: "inherit" }}
+                            >
+                                <div className="card product-card">
+                                    <img src={product.obrazek} alt={product.nazev} />
+                                    <div className="card-body text-center">
+                                        <h5>{product.nazev}</h5>
+                                        <p className="price">{product.cena} Kč</p>
                                     </div>
-                                </Link>
-                            </div>
-                        );
-                    })}
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
                 </div>
             </section>
 
