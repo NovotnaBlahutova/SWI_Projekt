@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react";
 import {
     FaBars,
     FaSearch,
-    FaHeart,
     FaUser,
     FaShoppingBag,
     FaPhone,
