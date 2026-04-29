@@ -6,6 +6,6 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findBySlug(String slug);
-    // TADY BYLA CHYBA - musí to být 'Nazev', ne 'Name'
+    
     boolean existsByNazev(String nazev);
 }
