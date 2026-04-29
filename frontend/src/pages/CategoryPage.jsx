@@ -2,16 +2,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./CategoryPage.css";
 
 import { useContext, useEffect, useState } from "react";
-import { WishlistContext } from "../context/WishlistContext";
-import { AuthContext } from "../context/AuthContext";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 function CategoryPage() {
     const { slug } = useParams();
     const navigate = useNavigate();
 
-    const { wishlist, toggleWishlist } = useContext(WishlistContext);
-    const { user } = useContext(AuthContext);
 
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -74,26 +69,6 @@ function CategoryPage() {
                                 alt={product.nazev}
                                 className="product-img"
                             />
-
-                            {/* wishlist */}
-                            <div
-                                className="wishlist-icon"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-
-                                    if (!user) {
-                                        navigate("/login");
-                                        return;
-                                    }
-
-                                    toggleWishlist(product);
-                                }}
-                            >
-                                {wishlist.some(p => p.id === product.id)
-                                    ? <FaHeart />
-                                    : <FaRegHeart />}
-                            </div>
 
                             <div className="card-body text-center">
                                 <h5>{product.nazev}</h5>

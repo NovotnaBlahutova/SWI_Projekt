@@ -59,10 +59,6 @@ function Navbar() {
                             <FaPhone className="icon" />
                         </Link>
 
-                        <Link to="/wishlist">
-                            <FaHeart className="icon" />
-                        </Link>
-
                         {user ? (
                             <div className="nav-user">
                                 <Link to="/profile" className="user-name">
