@@ -1,0 +1,31 @@
+{
+  "name": "Boujee Eshop Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": { "version": "17" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "18" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "pivotal.vscode-boot-dev-pack",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mariadb-server && cd frontend && npm install && echo 'alias start=\"cd /workspaces/SWI_Projekt/backend && mvn spring-boot:run & cd /workspaces/SWI_Projekt/frontend && npm run dev\"' >> ~/.bashrc",
+  "postStartCommand": "sudo service mariadb start && mysql -e 'CREATE DATABASE IF NOT EXISTS fashion_eshop;'",
+  "portsAttributes": {
+    "8080": {
+      "label": "Backend API",
+      "onAutoForward": "notify",
+      "visibility": "public"
+    },
+    "5173": {
+      "label": "Frontend Web",
+      "onAutoForward": "openBrowser",
+      "visibility": "public"
+    }
+  }
+}
