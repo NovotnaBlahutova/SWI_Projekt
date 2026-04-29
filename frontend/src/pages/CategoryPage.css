@@ -2,33 +2,49 @@
 
 .category-title {
     font-family: 'Playfair Display', serif;
-    font-size: 40px;
-    margin-bottom: 40px;
+    font-size: 36px;
+    margin-bottom: 50px;
+    letter-spacing: 1px;
 }
 
-/* produkty */
+/* grid spacing (bonus) */
+.category-page {
+    padding-bottom: 60px;
+}
+
+
+/* ===== PRODUCT CARD ===== */
+
 .product-card {
     border: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
     background: #fff;
 }
 
 .product-card img {
-    height: 300px;
+    width: 100%;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
 }
 
+/* hover */
 .product-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
 }
 
+/* název */
 .product-card h5 {
-    margin-top: 10px;
+    margin-top: 12px;
     font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.5px;
 }
 
+/* cena */
 .price {
-    font-weight: bold;
-    margin-top: 5px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: #444;
+    font-size: 15px;
 }

@@ -32,7 +32,7 @@ a {
     margin-top: 20px;
 }
 
-/* ⚠️ POZOR – scoped jen pro products stránku */
+/* scoped jen pro products stránku */
 .products-grid .product-card {
     border: 1px solid #eee;
     padding: 15px;

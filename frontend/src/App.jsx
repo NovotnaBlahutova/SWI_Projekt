@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import Products from "./pages/Products";
 import CategoryPage from "./pages/CategoryPage";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
@@ -14,6 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
+import Contact from "./pages/Contact";
 
 function App() {
     return (
@@ -24,15 +24,20 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
 
-                <Route path="/products" element={<Products />} />
-
                 <Route path="/category/:slug" element={<CategoryPage />} />
 
                 <Route path="/product/:slug" element={<ProductDetail />} />
 
                 <Route path="/cart" element={<Cart />} />
 
-                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/contact" element={<Contact />} />
+
+                <Route path="/checkout" element={
+                        <ProtectedRoute>
+                            <Checkout />
+                        </ProtectedRoute>
+                    }
+                />
 
                 <Route path="/login" element={<Login />} />
 
@@ -40,7 +45,10 @@ function App() {
 
                 <Route path="/register" element={<Register />} />
 
-                <Route path="/profile" element={<ProtectedRoute>
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
                             <Profile />
                         </ProtectedRoute>
                     }

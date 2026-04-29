@@ -29,7 +29,6 @@
 .hero-overlay h1 {
     font-size: 60px;
     margin-bottom: 10px;
-    font-family: 'Playfair Display', serif; /* 💎 luxury font */
 }
 
 .hero-overlay p {
@@ -53,8 +52,6 @@
 
 
 /* ===== KATEGORIE SEKCE ===== */
-
-/* ===== CLEAN KATEGORIE ===== */
 
 .category-card-clean {
     border: none;
@@ -176,7 +173,6 @@
 
 .quote-banner p {
     font-size: 26px;
-    font-family: 'Playfair Display', serif;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -279,7 +275,6 @@
 .summer-overlay h2 {
     font-size: 42px;
     margin-bottom: 10px;
-    font-family: 'Playfair Display', serif;
 }
 
 .summer-overlay p {

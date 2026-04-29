@@ -6,27 +6,27 @@ function Checkout() {
     const { cart, setCart } = useContext(CartContext);
 
     const [orderData, setOrderData] = useState(null);
+    const [orderDone, setOrderDone] = useState(false);
 
     const [form, setForm] = useState({
         name: "",
+        surname: "",
         email: "",
+        phone: "",
         address: "",
         city: "",
         zip: "",
+        country: "",
         delivery: "zasilkovna",
         payment: "card",
     });
 
-    const [orderDone, setOrderDone] = useState(false);
-
     const totalProducts = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum, item) => sum + item.cena * item.quantity,
         0
     );
 
-    const deliveryPrice =
-        form.delivery === "kuryr" ? 120 : 70;
-
+    const deliveryPrice = form.delivery === "kuryr" ? 120 : 70;
     const totalPrice = totalProducts + deliveryPrice;
 
     const handleChange = (e) => {
@@ -36,24 +36,56 @@ function Checkout() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!form.name || !form.email || !form.address) {
+        if (
+            !form.name ||
+            !form.surname ||
+            !form.email ||
+            !form.phone ||
+            !form.address ||
+            !form.city ||
+            !form.zip ||
+            !form.country
+        ) {
             alert("Vyplň všechna pole");
             return;
         }
 
         const order = {
-            id: Date.now(),
             items: cart,
             customer: form,
             total: totalPrice,
         };
 
-        setOrderData(order); // 🔥 uložíme do state
-        setOrderDone(true);
-        setCart([]);
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch("http://localhost:3000/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(order),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert(data.message || "Chyba objednávky");
+                return;
+            }
+
+            // úspěch
+            setOrderData(order);
+            setOrderDone(true);
+            setCart([]);
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
+        }
     };
 
     if (orderDone && orderData) {
@@ -75,21 +107,17 @@ function Checkout() {
                     <div className="order-items">
                         {orderData.items.map((item, i) => (
                             <div key={i} className="order-item">
-
                                 <div className="order-left">
-                                    <span className="order-name">{item.name}</span>
-                                    <span className="order-qty">{item.quantity}×</span>
+                                    <span>{item.nazev}</span>
+                                    <span>{item.quantity}×</span>
                                 </div>
 
-                                <div className="order-price">
-                                    {item.price * item.quantity} Kč
+                                <div>
+                                    {item.cena * item.quantity} Kč
                                 </div>
-
                             </div>
                         ))}
                     </div>
-
-                    <div className="order-divider"></div>
 
                     <div className="order-total-row">
                         <span>Celkem</span>
@@ -97,7 +125,6 @@ function Checkout() {
                     </div>
 
                 </div>
-
             </div>
         );
     }
@@ -109,153 +136,39 @@ function Checkout() {
 
             <div className="checkout-layout">
 
-                {/* LEFT */}
+                {/* FORM */}
                 <form className="checkout-form" onSubmit={handleSubmit}>
-
-                    {/* 👤 OSOBNÍ ÚDAJE */}
                     <h2>Kontaktní údaje</h2>
 
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Jméno"
-                        onChange={handleChange}
-                    />
+                    <input name="name" placeholder="Jméno" onChange={handleChange} />
+                    <input name="surname" placeholder="Příjmení" onChange={handleChange} />
+                    <input name="email" placeholder="Email" onChange={handleChange} />
+                    <input name="phone" placeholder="Telefon" onChange={handleChange} />
 
-                    <input
-                        type="text"
-                        name="surname"
-                        placeholder="Příjmení"
-                        onChange={handleChange}
-                    />
+                    <h2>Adresa</h2>
 
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        onChange={handleChange}
-                    />
-
-                    {/* 📦 ADRESA */}
-                    <h2>Doručovací adresa</h2>
-
-                    <input
-                        type="text"
-                        name="address"
-                        placeholder="Ulice a číslo"
-                        onChange={handleChange}
-                    />
-
-                    <input
-                        type="text"
-                        name="city"
-                        placeholder="Město"
-                        onChange={handleChange}
-                    />
-
-                    <input
-                        type="text"
-                        name="zip"
-                        placeholder="PSČ"
-                        onChange={handleChange}
-                    />
-
-                    {/* DOPRAVA */}
-                    <h2>Doprava</h2>
-
-                    <div className="option-list">
-                        {[
-                            { id: "zasilkovna", name: "Zásilkovna", price: 70, desc: "Výdejní místo" },
-                            { id: "kuryr", name: "Kurýr", price: 120, desc: "Doručení domů" },
-                            { id: "osobni", name: "Osobní odběr", price: 0, desc: "Zdarma" }
-                        ].map(option => (
-                            <div
-                                key={option.id}
-                                className={`option-row ${form.delivery === option.id ? "active" : ""}`}
-                                onClick={() => setForm({ ...form, delivery: option.id })}
-                            >
-                                <div>
-                                    <h3>{option.name}</h3>
-                                    <p>{option.desc}</p>
-                                </div>
-
-                                <span>{option.price} Kč</span>
-                            </div>
-                        ))}
-                    </div>
-
-
-                    {/* PLATBA */}
-                    <h2>Platba</h2>
-
-                    <div className="option-list">
-                        {[
-                            { id: "card", name: "Karta", desc: "Online platba" },
-                            { id: "apple", name: "Apple Pay", desc: "Rychlá platba" },
-                            { id: "google", name: "Google Pay", desc: "Rychlá platba" },
-                            { id: "dobirka", name: "Dobírka", desc: "Platba při převzetí" }
-                        ].map(option => (
-                            <div
-                                key={option.id}
-                                className={`option-row ${form.payment === option.id ? "active" : ""}`}
-                                onClick={() => setForm({ ...form, payment: option.id })}
-                            >
-                                <div>
-                                    <h3>{option.name}</h3>
-                                    <p>{option.desc}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {form.payment === "card" && (
-                        <div className="card-box">
-
-                            <input
-                                type="text"
-                                placeholder="Číslo karty"
-                                className="card-input"
-                            />
-
-                            <div className="card-row">
-                                <input
-                                    type="text"
-                                    placeholder="MM/YY"
-                                    className="card-input"
-                                />
-
-                                <input
-                                    type="text"
-                                    placeholder="CVC"
-                                    className="card-input"
-                                />
-                            </div>
-
-                        </div>
-                    )}
+                    <input name="address" placeholder="Ulice" onChange={handleChange} />
+                    <input name="city" placeholder="Město" onChange={handleChange} />
+                    <input name="zip" placeholder="PSČ" onChange={handleChange} />
+                    <input name="country" placeholder="Stát" onChange={handleChange} />
 
                     <button type="submit" className="checkout-submit">
                         Dokončit objednávku
                     </button>
-
                 </form>
 
-                {/* RIGHT - SUMMARY */}
+                {/* SUMMARY */}
                 <div className="checkout-summary">
 
                     <h2>Souhrn</h2>
 
                     {cart.map((item, i) => (
-                        <div key={i} className="summary-item">
-                            <span>{item.name}</span>
-                            <span>{item.quantity}×</span>
+                        <div key={i}>
+                            {item.nazev} ({item.quantity}×)
                         </div>
                     ))}
 
-                    <div className="summary-row">
-                        <span>Doprava</span>
-                        <span>{deliveryPrice} Kč</span>
-                    </div>
+                    <div>Doprava: {deliveryPrice} Kč</div>
 
                     <div className="total">
                         Celkem: {totalPrice} Kč

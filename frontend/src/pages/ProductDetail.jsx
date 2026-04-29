@@ -1,47 +1,70 @@
 import { useParams } from "react-router-dom";
-import { products } from "../data/products";
 import "./ProductDetail.css";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
 function ProductDetail() {
     const { slug } = useParams();
 
-    const product = products.find(p => p.slug === slug);
-
+    const [product, setProduct] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
-
     const [selectedVolume, setSelectedVolume] = useState(null);
+    const [error, setError] = useState("");
 
     const { addToCart } = useContext(CartContext);
 
+    // FETCH JEDNOHO PRODUKTU
+    useEffect(() => {
+        fetch("http://localhost:3000/products")
+            .then(res => res.json())
+            .then(data => {
+                const found = data.find(p => p.slug === slug);
+                setProduct(found);
+            })
+            .catch(err => console.error(err));
+    }, [slug]);
+
     if (!product) {
-        return <h2 className="not-found">Produkt nenalezen</h2>;
+        return <h2 className="not-found">Načítání...</h2>;
     }
+
+    const handleAddToCart = () => {
+        if (product.sizes && !selectedSize) {
+            setError("Vyberte velikost");
+            return;
+        }
+
+        if (product.volume && !selectedVolume) {
+            setError("Vyberte objem");
+            return;
+        }
+
+        setError("");
+        addToCart(product, selectedSize, selectedVolume);
+    };
 
     return (
         <div className="product-page">
-
             <div className="product-container">
 
-                {/* LEFT - IMAGE */}
+                {/* IMAGE */}
                 <div className="product-image">
-                    <img src={product.image} alt={product.name} />
+                    <img src={product.obrazek} alt={product.nazev} />
                 </div>
 
-                {/* RIGHT - INFO */}
+                {/* INFO */}
                 <div className="product-info">
-                    <h1 className="product-title">{product.name}</h1>
 
-                    <p className="product-price">{product.price} Kč</p>
+                    <h1 className="product-title">{product.nazev}</h1>
+
+                    <p className="product-price">{product.cena} Kč</p>
 
                     <p className="product-desc">
-                        {product.description || "Popis produktu zatím není k dispozici."}
+                        {product.popis || "Popis produktu zatím není k dispozici."}
                     </p>
 
-                    {/* ===== SIZES ===== */}
-                    {product.sizes && product.sizes.length > 0 && (
+                    {/* SIZES */}
+                    {product.sizes?.length > 0 && (
                         <div className="sizes">
                             <p className="sizes-label">Velikost:</p>
 
@@ -50,7 +73,10 @@ function ProductDetail() {
                                     <button
                                         key={size}
                                         className={`size-btn ${selectedSize === size ? "active" : ""}`}
-                                        onClick={() => setSelectedSize(size)}
+                                        onClick={() => {
+                                            setSelectedSize(size);
+                                            setError("");
+                                        }}
                                     >
                                         {size}
                                     </button>
@@ -59,7 +85,8 @@ function ProductDetail() {
                         </div>
                     )}
 
-                    {product.volume && product.volume.length > 0 && (
+                    {/* VOLUME */}
+                    {product.volume?.length > 0 && (
                         <div className="sizes">
                             <p className="sizes-label">Objem (ml):</p>
 
@@ -68,7 +95,10 @@ function ProductDetail() {
                                     <button
                                         key={v}
                                         className={`size-btn ${selectedVolume === v ? "active" : ""}`}
-                                        onClick={() => setSelectedVolume(v)}
+                                        onClick={() => {
+                                            setSelectedVolume(v);
+                                            setError("");
+                                        }}
                                     >
                                         {v} ml
                                     </button>
@@ -77,21 +107,14 @@ function ProductDetail() {
                         </div>
                     )}
 
-                    {/* BUTTON */}
-                    <button
-                        className="btn-add"
-                        disabled={
-                            (product.sizes && !selectedSize) ||
-                            (product.volume && !selectedVolume)
-                        }
-                        onClick={() => addToCart(product, selectedSize, selectedVolume)}
-                    >
+                    {error && <p className="error">{error}</p>}
+
+                    <button className="btn-add" onClick={handleAddToCart}>
                         Přidat do košíku
                     </button>
+
                 </div>
-
             </div>
-
         </div>
     );
 }

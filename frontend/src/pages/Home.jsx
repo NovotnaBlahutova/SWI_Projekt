@@ -2,21 +2,41 @@ import "./Home.css";
 import video from "../assets/images/video.mp4";
 import summer from "../assets/images/summer_collection.jpg";
 
-import { categories } from "../data/categories";
-import { products } from "../data/products";
-
-import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { WishlistContext } from "../context/WishlistContext";
+import { AuthContext } from "../context/AuthContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 
-
 function Home() {
+    const navigate = useNavigate();
 
-    const presale = products.filter(p => p.tag === "presale");
-    const bestsellers = products.filter(p => p.tag === "bestseller");
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     const { wishlist, toggleWishlist } = useContext(WishlistContext);
+    const { user } = useContext(AuthContext);
+
+    // FETCH PRODUCTS
+    useEffect(() => {
+        fetch("http://localhost:3000/products")
+            .then(res => res.json())
+            .then(data => setProducts(data))
+            .catch(err => console.error(err));
+    }, []);
+
+    // FETCH CATEGORIES
+    useEffect(() => {
+        fetch("http://localhost:3000/categories")
+            .then(res => res.json())
+            .then(data => setCategories(data))
+            .catch(err => console.error(err));
+    }, []);
+
+    // 🎲 RANDOM PRODUKTY (bez duplicit)
+    const shuffled = [...products].sort(() => 0.5 - Math.random());
+    const presale = shuffled.slice(0, 3);
+    const bestsellers = shuffled.slice(3, 6);
 
     return (
         <div className="home">
@@ -32,26 +52,24 @@ function Home() {
 
             {/* KATEGORIE */}
             <section className="container mt-5">
-                <h2 className="mb-4 text-center">Dárky pro ni</h2>
+                <h2 className="mb-4 text-center">Kategorie</h2>
 
                 <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
-                    {categories
-                        .filter(cat => cat.gender === "women")
-                        .map((cat) => (
-                            <div className="col" key={cat.id}>
-                                <Link
-                                    to={`/women/category/${cat.slug}`}
-                                    style={{ textDecoration: "none", color: "inherit" }}
-                                >
-                                    <div className="card category-card-clean">
-                                        <img src={cat.image} alt={cat.name} />
-                                        <div className="card-body text-center">
-                                            <h5>{cat.name}</h5>
-                                        </div>
+                    {categories.map((cat) => (
+                        <div className="col" key={cat.id}>
+                            <Link
+                                to={`/category/${cat.slug}`}
+                                style={{ textDecoration: "none", color: "inherit" }}
+                            >
+                                <div className="card category-card-clean">
+                                    <img src={cat.obrazek} alt={cat.nazev} />
+                                    <div className="card-body text-center">
+                                        <h5>{cat.nazev}</h5>
                                     </div>
-                                </Link>
-                            </div>
-                        ))}
+                                </div>
+                            </Link>
+                        </div>
+                    ))}
                 </div>
             </section>
 
@@ -68,14 +86,13 @@ function Home() {
                 </div>
             </section>
 
-            {/* PRE-SALE PRODUKTY */}
-            {/* PRE-SALE PRODUKTY */}
+            {/* PRE-SALE */}
             <section className="container mt-5">
                 <h2 className="mb-4 text-center">Pre-sale produkty</h2>
 
                 <div className="row row-cols-1 row-cols-md-3 g-5">
                     {presale.map((product) => {
-                        const isInWishlist = wishlist.some((p) => p.id === product.id);
+                        const isInWishlist = wishlist.some(p => p.id === product.id);
 
                         return (
                             <div className="col" key={product.id}>
@@ -83,24 +100,31 @@ function Home() {
                                     to={`/product/${product.slug}`}
                                     style={{ textDecoration: "none", color: "inherit" }}
                                 >
-                                    <div className="card product-card">
+                                    <div className="card product-card" style={{ position: "relative" }}>
 
-                                        {/* WISHLIST */}
+                                        {/* wishlist */}
                                         <div
                                             className="wishlist-icon"
                                             onClick={(e) => {
                                                 e.preventDefault();
+                                                e.stopPropagation();
+
+                                                if (!user) {
+                                                    navigate("/login");
+                                                    return;
+                                                }
+
                                                 toggleWishlist(product);
                                             }}
                                         >
                                             {isInWishlist ? <FaHeart /> : <FaRegHeart />}
                                         </div>
 
-                                        <img src={product.image} alt={product.name} />
+                                        <img src={product.obrazek} alt={product.nazev} />
 
                                         <div className="card-body text-center">
-                                            <h5 className="card-title">{product.name}</h5>
-                                            <p className="price">{product.price} Kč</p>
+                                            <h5>{product.nazev}</h5>
+                                            <p className="price">{product.cena} Kč</p>
                                         </div>
 
                                     </div>
@@ -117,7 +141,6 @@ function Home() {
             </section>
 
             {/* BESTSELLERS */}
-            {/* BESTSELLERS */}
             <section className="container mt-5">
                 <h2 className="mb-4 text-center">Nejprodávanější</h2>
 
@@ -130,10 +153,10 @@ function Home() {
                             >
                                 <div className="card product-card">
                                     <div className="badge">Bestseller</div>
-                                    <img src={product.image} alt={product.name} />
+                                    <img src={product.obrazek} alt={product.nazev} />
                                     <div className="card-body text-center">
-                                        <h5>{product.name}</h5>
-                                        <p className="price">{product.price} Kč</p>
+                                        <h5>{product.nazev}</h5>
+                                        <p className="price">{product.cena} Kč</p>
                                     </div>
                                 </div>
                             </Link>

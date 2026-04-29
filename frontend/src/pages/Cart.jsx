@@ -11,10 +11,9 @@ function Cart() {
     };
 
     const totalPrice = cart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
+        (sum, item) => sum + item.cena * item.quantity,
         0
     );
-
 
     if (cart.length === 0) {
         return <h2 className="empty-cart">Váš košík je prázdný</h2>;
@@ -32,10 +31,10 @@ function Cart() {
                     {cart.map((item, index) => (
                         <div className="cart-item" key={index}>
 
-                            <img src={item.image} alt={item.name} />
+                            <img src={item.image} alt={item.nazev} />
 
                             <div className="cart-info">
-                                <h3>{item.name}</h3>
+                                <h3>{item.nazev}</h3>
 
                                 {item.selectedSize && (
                                     <p>Velikost: {item.selectedSize}</p>
@@ -47,7 +46,6 @@ function Cart() {
 
                                 <div className="cart-bottom">
 
-                                    {/* LEFT */}
                                     <div className="left-side">
                                         <div className="quantity">
                                             <button onClick={() => decreaseQty(index)}>-</button>
@@ -56,9 +54,8 @@ function Cart() {
                                         </div>
                                     </div>
 
-                                    {/* RIGHT */}
                                     <div className="right-side">
-                                        {item.price * item.quantity} Kč
+                                        {item.cena * item.quantity} Kč
                                     </div>
 
                                 </div>

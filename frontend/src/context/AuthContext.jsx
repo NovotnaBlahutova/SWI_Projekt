@@ -13,53 +13,15 @@ function AuthProvider({ children }) {
         }
     }, []);
 
-    // 🔐 LOGIN
-    const login = (email, password) => {
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-
-        const foundUser = users.find(
-            (u) => u.email === email && u.password === password
-        );
-
-        if (!foundUser) {
-            alert("Špatný email nebo heslo");
-            return false;
-        }
-
-        setUser(foundUser);
-        localStorage.setItem("user", JSON.stringify(foundUser));
-        return true;
-    };
-
-    const register = (firstName, lastName, email, password) => {
-        const users = JSON.parse(localStorage.getItem("users")) || [];
-
-        const exists = users.find((u) => u.email === email);
-
-        if (exists) {
-            alert("Uživatel už existuje");
-            return false;
-        }
-
-        const newUser = { firstName, lastName, email, password };
-
-        users.push(newUser);
-        localStorage.setItem("users", JSON.stringify(users));
-
-        setUser(newUser);
-        localStorage.setItem("user", JSON.stringify(newUser));
-
-        return true;
-    };
-
-    // 🚪 LOGOUT
+    // LOGOUT
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
+        localStorage.removeItem("token");
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ user, setUser, logout }}>
             {children}
         </AuthContext.Provider>
     );

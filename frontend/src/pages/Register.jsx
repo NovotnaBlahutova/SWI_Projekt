@@ -4,44 +4,57 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Register() {
-    const { register } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [jmeno, setJmeno] = useState("");
+    const [prijmeni, setPrijmeni] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [heslo, setHeslo] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // validace všech polí
         if (
-            !firstName.trim() ||
-            !lastName.trim() ||
+            !jmeno.trim() ||
+            !prijmeni.trim() ||
             !email.trim() ||
-            !password.trim()
+            !heslo.trim()
         ) {
             alert("Vyplň všechna pole");
             return;
         }
 
-        // čištění dat
-        const cleanFirstName = firstName.trim();
-        const cleanLastName = lastName.trim();
-        const cleanEmail = email.trim().toLowerCase();
-        const cleanPassword = password.trim();
+        try {
+            const res = await fetch("http://localhost:3000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    jmeno: jmeno.trim(),
+                    prijmeni: prijmeni.trim(),
+                    email: email.trim().toLowerCase(),
+                    heslo: heslo.trim(),
+                }),
+            });
 
-        // 🔐 registrace
-        const success = register(
-            cleanFirstName,
-            cleanLastName,
-            cleanEmail,
-            cleanPassword
-        );
+            const data = await res.json();
 
-        if (success) {
+            if (!res.ok) {
+                alert(data.message || "Chyba registrace");
+                return;
+            }
+
+            // uložíme user + token
+            setUser(data.user);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
+
             navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
         }
     };
 
@@ -56,15 +69,15 @@ function Register() {
                     <input
                         type="text"
                         placeholder="Jméno"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={jmeno}
+                        onChange={(e) => setJmeno(e.target.value)}
                     />
 
                     <input
                         type="text"
                         placeholder="Příjmení"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        value={prijmeni}
+                        onChange={(e) => setPrijmeni(e.target.value)}
                     />
 
                     <input
@@ -77,8 +90,8 @@ function Register() {
                     <input
                         type="password"
                         placeholder="Heslo"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={heslo}
+                        onChange={(e) => setHeslo(e.target.value)}
                     />
 
                     <button type="submit">

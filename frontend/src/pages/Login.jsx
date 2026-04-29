@@ -4,37 +4,59 @@ import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 
 function Login() {
-    const { login } = useContext(AuthContext);
+    const { setUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // basic validace
         if (!email.trim() || !password.trim()) {
             alert("Vyplň všechna pole");
             return;
         }
 
-        // vyčištění dat
-        const cleanEmail = email.trim().toLowerCase();
-        const cleanPassword = password.trim();
+        setLoading(true);
 
-        // login
-        const success = login(cleanEmail, cleanPassword);
+        try {
+            const res = await fetch("http://localhost:3000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email.trim().toLowerCase(),
+                    heslo: password.trim(),
+                }),
+            });
 
-        // přesměrování jen pokud OK
-        if (success) {
+            const data = await res.json();
+
+            if (!res.ok) {
+                alert(data.message || "Chyba přihlášení");
+                setLoading(false);
+                return;
+            }
+
+            // uložíme user + token
+            setUser(data.user);
+            localStorage.setItem("user", JSON.stringify(data.user));
+            localStorage.setItem("token", data.token);
+
             navigate("/");
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <div className="login-page">
-
             <div className="login-box">
 
                 <h1>Přihlášení</h1>
@@ -55,8 +77,8 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <button type="submit">
-                        Přihlásit se
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Přihlašuji..." : "Přihlásit se"}
                     </button>
 
                 </form>
@@ -66,7 +88,6 @@ function Login() {
                 </p>
 
             </div>
-
         </div>
     );
 }

@@ -15,7 +15,7 @@ function Footer() {
                 {/* KONTAKT */}
                 <div className="footer-section">
                     <h4>Kontakt</h4>
-                    <p>Email: info@boujee.cz</p>
+                    <p>Email: support@boujee.cz</p>
                     <p>Tel: +420 123 456 789</p>
                 </div>
 

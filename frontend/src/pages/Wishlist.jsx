@@ -31,16 +31,16 @@ function Wishlist() {
                                 className="wishlist-remove"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    e.stopPropagation(); // 🔥 důležité
+                                    e.stopPropagation();
                                     toggleWishlist(product);
                                 }}
                             >
                                 ✕
                             </span>
 
-                            {/* IMAGE + OVERLAY */}
+                            {/* IMAGE */}
                             <div className="wishlist-image-wrapper">
-                                <img src={product.image} alt={product.name} />
+                                <img src={product.obrazek} alt={product.nazev} />
 
                                 <div className="wishlist-overlay">
                                     <button
@@ -56,8 +56,8 @@ function Wishlist() {
                                 </div>
                             </div>
 
-                            <h5>{product.name}</h5>
-                            <p>{product.price} Kč</p>
+                            <h5>{product.nazev}</h5>
+                            <p>{product.cena} Kč</p>
 
                         </div>
                     </Link>
