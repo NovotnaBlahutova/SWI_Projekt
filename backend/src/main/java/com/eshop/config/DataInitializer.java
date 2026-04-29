@@ -30,10 +30,10 @@ public class DataInitializer implements CommandLineRunner {
             bags.setImageUrl("https://placehold.co/600x400?text=Kabelky"); 
             categoryRepository.save(bags);
 
-            // 2. Vytvoření dodavatele (aby nebyl supplier_id NULL)
+            // 2. Vytvoření dodavatele (jen se jménem, to tam 100% máš)
             Supplier supplier = new Supplier();
             supplier.setName("Versace Official");
-            supplier.setContactEmail("info@versace.it");
+            // Řádek s e-mailem jsem smazal, aby to neházelo chybu
             supplierRepository.save(supplier);
 
             // 3. Vytvoření produktu
@@ -43,7 +43,7 @@ public class DataInitializer implements CommandLineRunner {
             bag.setCena(45000.0);
             bag.setPopis("Limitovaná edice kožené kabelky z italské dílny.");
             bag.setCategory(bags);
-            bag.setSupplier(supplier); // Přiřazení dodavatele
+            bag.setSupplier(supplier);
             bag.setImageUrl("https://placehold.co/600x400?text=Versace+Bag");
             bag.setGender("women");
             bag.setTag("Luxury");
@@ -51,8 +51,9 @@ public class DataInitializer implements CommandLineRunner {
             productRepository.save(bag);
             
             System.out.println("--------------------------------------------------");
-            System.out.println(">> ÚSPĚCH: Kategorie, Dodavatel i Produkt nahráni!");
+            System.out.println(">> ÚSPĚCH: Testovací data nahrána!");
             System.out.println("--------------------------------------------------");
         }
+    
     }
 }
