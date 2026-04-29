@@ -2,12 +2,13 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Backend",
-      "type": "shell",
-      "command": "cd backend && mvn spring-boot:run",
-      "isBackground": true,
-      "runOptions": { "runOn": "folderOpen" }
-    },
+  "label": "Start Backend",
+  "type": "shell",
+  // Přidáme příkaz "sleep 5", který dá databázi 5 sekund na start
+  "command": "sleep 5 && cd backend && mvn spring-boot:run",
+  "isBackground": true,
+  "runOptions": { "runOn": "folderOpen" }
+},
     {
       "label": "Start Frontend",
       "type": "shell",
