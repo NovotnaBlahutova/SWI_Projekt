@@ -114,3 +114,9 @@ CREATE TABLE doprava (
 
     FOREIGN KEY (objednavka_id) REFERENCES objednavky(id) ON DELETE CASCADE
 );
+
+-- ===== TESTOVACÍ DATA =====
+INSERT INTO kategorie (nazev, slug) VALUES ('Oblečení', 'obleceni'), ('Doplňky', 'doplnky');
+
+INSERT INTO produkty (nazev, slug, popis, cena, sklad, kategorie_id) 
+VALUES ('Boujee Tričko', 'boujee-tricko', 'Luxusní bavlněné tričko', 999.00, 50, 1);
