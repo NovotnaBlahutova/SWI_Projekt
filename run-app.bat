@@ -4,48 +4,45 @@ echo ==================================================
 echo   🚀 Startuji Boujee Eshop (Windows verze)
 echo ==================================================
 
-:: 1. Kontrola Javy
+REM 1. Kontrola Javy
 java -version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [CHYBA] Java neni nainstalovana nebo neni v PATH.
-    echo Prosim nainstaluj JDK 17.
-    pause
-    exit /b
-)
+if %ERRORLEVEL% NEQ 0 goto NOJAVA
 
-:: 2. Kontrola Node.js
+REM 2. Kontrola Node.js
 node -v >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [CHYBA] Node.js neni nainstalovany.
-    echo Prosim nainstaluj Node.js z https://nodejs.org/
-    pause
-    exit /b
-)
+if %ERRORLEVEL% NEQ 0 goto NONODE
 
-:: 3. Instalace frontend zavislosti (pokud chybi)
+REM 3. Instalace frontend zavislosti
 if not exist "frontend\node_modules\" (
-    echo [INFO] Instaluji frontend zavislosti (npm install)...
+    echo [INFO] Instaluji frontend zavislosti...
     cd frontend && call npm install && cd ..
 )
 
-:: 4. Kontrola databaze (predpokladame port 3306)
-echo [INFO] Kontroluji, zda bezi databaze na portu 3306...
+REM 4. Kontrola portu 3306
 netstat -an | findstr :3306 >nul
-if %errorlevel% neq 0 (
-    echo [VAROVANI] Na portu 3306 nic nebezi. 
-    echo Ujisti se, ze mas zapnutou MariaDB nebo MySQL!
+if %ERRORLEVEL% NEQ 0 (
+    echo [VAROVANI] Na portu 3306 nic nebezi. Zapni MySQL!
     pause
 )
 
-:: 5. SPUSTENI
-echo [INFO] Startuji Backend a Frontend v novych oknech...
-
-:: Spusti backend v novem okne
-start "Boujee BACKEND" cmd /k "cd backend && mvn spring-boot:run"
-
-:: Spusti frontend v novem okne
-start "Boujee FRONTEND" cmd /k "cd frontend && npm run dev"
+REM 5. SPUSTENI
+echo [INFO] Startuji Backend a Frontend...
+start "Boujee BACKEND" cmd /c "cd backend && mvn spring-boot:run"
+start "Boujee FRONTEND" cmd /c "cd frontend && npm run dev"
 
 echo ==================================================
 echo   ✨ Hotovo! Sleduj nove otevrena okna.
 echo ==================================================
+goto END
+
+:NOJAVA
+echo [CHYBA] Java neni nainstalovana nebo neni v PATH.
+pause
+exit /b
+
+:NONODE
+echo [CHYBA] Node.js neni nainstalovan.
+pause
+exit /b
+
+:END
