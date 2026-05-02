@@ -1,39 +1,39 @@
 import { useParams, useNavigate } from "react-router-dom";
 import "./CategoryPage.css";
-
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from '../apiConfig';
 
 function CategoryPage() {
     const { slug } = useParams();
     const navigate = useNavigate();
 
-
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [sortBy, setSortBy] = useState("newest");
 
-    // fetch categories
     useEffect(() => {
-        fetch("http://localhost:8080/categories")
+        fetch(`${API_BASE_URL}/categories`)
             .then(res => res.json())
             .then(data => setCategories(data))
             .catch(err => console.error(err));
     }, []);
 
-    // fetch products
     useEffect(() => {
-        fetch("http://localhost:8080/products")
+        fetch(`${API_BASE_URL}/products`)
             .then(res => res.json())
             .then(data => setProducts(data))
             .catch(err => console.error(err));
     }, []);
 
-    // najdi kategorii podle slug
     const category = categories.find(c => c.slug === slug);
 
-    // filtr produktů
-    const filteredProducts = products.filter(
-        p => p.category?.id === category?.id
-    );
+    const filteredProducts = products
+        .filter(p => p.categoryId === category?.id)
+        .sort((a, b) => {
+            if (sortBy === "cheapest") return a.cena - b.cena;
+            if (sortBy === "expensive") return b.cena - a.cena;
+            return 0;
+        });
 
     return (
         <div className="container mt-5 category-page">
@@ -43,10 +43,14 @@ function CategoryPage() {
             </h1>
 
             <div className="d-flex justify-content-end mb-3">
-                <select className="form-select w-auto">
-                    <option>Nejnovější</option>
-                    <option>Nejlevnější</option>
-                    <option>Nejdražší</option>
+                <select
+                    className="form-select w-auto"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                >
+                    <option value="newest">Nejnovější</option>
+                    <option value="cheapest">Nejlevnější</option>
+                    <option value="expensive">Nejdražší</option>
                 </select>
             </div>
 
@@ -69,7 +73,6 @@ function CategoryPage() {
                                 alt={product.nazev}
                                 className="product-img"
                             />
-
                             <div className="card-body text-center">
                                 <h5>{product.nazev}</h5>
                                 <p className="price">{product.cena} Kč</p>

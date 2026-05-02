@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css";
+import { API_BASE_URL } from '../apiConfig';
 
 function Navbar() {
     const [showSearch, setShowSearch] = useState(false);
@@ -21,7 +22,7 @@ function Navbar() {
 
     // FETCH categories
     useEffect(() => {
-        fetch("http://localhost:3000/categories")
+        fetch(`${API_BASE_URL}/categories`)
             .then(res => res.json())
             .then(data => setCategories(data))
             .catch(err => console.error(err));
@@ -61,7 +62,7 @@ function Navbar() {
                         {user ? (
                             <div className="nav-user">
                                 <Link to="/profile" className="user-name">
-                                    {user.jmeno}
+                                    {user.firstName}
                                 </Link>
 
                                 <span onClick={logout} className="logout-text">

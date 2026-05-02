@@ -1,6 +1,7 @@
 import "./Home.css";
 import video from "../assets/images/video.mp4";
 import summer from "../assets/images/summer_collection.jpg";
+import { API_BASE_URL } from '../apiConfig';
 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ function Home() {
 
     // FETCH PRODUCTS
     useEffect(() => {
-        fetch("http://localhost:8080/products")
+        fetch(`${API_BASE_URL}/products`)
             .then(res => res.json())
             .then(data => setProducts(data))
             .catch(err => console.error(err));
@@ -19,7 +20,7 @@ function Home() {
 
     // FETCH CATEGORIES
     useEffect(() => {
-        fetch("http://localhost:8080/categories")
+        fetch(`${API_BASE_URL}/categories`)
             .then(res => res.json())
             .then(data => setCategories(data))
             .catch(err => console.error(err));

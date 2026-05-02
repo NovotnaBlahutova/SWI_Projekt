@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import { API_BASE_URL } from '../apiConfig';
 
 function Login() {
     const { setUser } = useContext(AuthContext);
@@ -22,16 +23,11 @@ function Login() {
         setLoading(true);
 
         try {
-            const res = await fetch("http://localhost:8080/login", {
+            const res = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: email.trim().toLowerCase(),
-                    password: password.trim(),
-                }),
-            });
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            })
 
             const data = await res.json();
 

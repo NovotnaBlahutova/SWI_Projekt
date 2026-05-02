@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import "./ProductDetail.css";
 import { useState, useEffect, useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { API_BASE_URL } from '../apiConfig';
 
 function ProductDetail() {
     const { slug } = useParams();
@@ -14,7 +15,7 @@ function ProductDetail() {
     const { addToCart } = useContext(CartContext);
 
     useEffect(() => {
-        fetch("http://localhost:8080/products")
+        fetch(`${API_BASE_URL}/products`)
             .then(res => res.json())
             .then(data => {
                 const found = data.find(p => p.slug === slug);

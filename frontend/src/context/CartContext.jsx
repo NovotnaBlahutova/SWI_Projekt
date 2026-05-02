@@ -14,7 +14,6 @@ function CartProvider({ children }) {
         }
     });
 
-    // ukládání do localStorage
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
@@ -23,12 +22,11 @@ function CartProvider({ children }) {
     const addToCart = (product, selectedSize, selectedVolume) => {
         setCart(prev => {
             const existingIndex = prev.findIndex(item =>
-                item.product_id === product.id &&
+                item.id === product.id &&
                 item.selectedSize === selectedSize &&
                 item.selectedVolume === selectedVolume
             );
 
-            // pokud existuje → zvýšit množství
             if (existingIndex !== -1) {
                 return prev.map((item, i) =>
                     i === existingIndex
@@ -37,14 +35,13 @@ function CartProvider({ children }) {
                 );
             }
 
-            // jinak přidat nový
             return [
                 ...prev,
                 {
-                    product_id: product.id,
+                    id: product.id,
                     nazev: product.nazev,
                     cena: product.cena,
-                    image: product.obrazek,
+                    imageUrl: product.imageUrl,
                     selectedSize,
                     selectedVolume,
                     quantity: 1,
@@ -53,7 +50,6 @@ function CartProvider({ children }) {
         });
     };
 
-    // zvýšení množství
     const increaseQty = (index) => {
         setCart(prev =>
             prev.map((item, i) =>
@@ -64,7 +60,6 @@ function CartProvider({ children }) {
         );
     };
 
-    // snížení množství
     const decreaseQty = (index) => {
         setCart(prev =>
             prev

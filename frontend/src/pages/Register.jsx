@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { API_BASE_URL } from '../apiConfig';
 
 function Register() {
     const { setUser } = useContext(AuthContext);
@@ -11,6 +12,7 @@ function Register() {
     const [prijmeni, setPrijmeni] = useState("");
     const [email, setEmail] = useState("");
     const [heslo, setHeslo] = useState("");
+    const [telefon, setTelefon] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,25 +21,25 @@ function Register() {
             !jmeno.trim() ||
             !prijmeni.trim() ||
             !email.trim() ||
-            !heslo.trim()
+            !heslo.trim() ||
+            !telefon.trim()
         ) {
             alert("Vyplň všechna pole");
             return;
         }
 
         try {
-            const res = await fetch("http://localhost:8080/register", {
+            const res = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     firstName: jmeno.trim(),
                     lastName: prijmeni.trim(),
                     email: email.trim().toLowerCase(),
                     password: heslo.trim(),
+                    phoneNumber: telefon.trim(),
                 }),
-            });
+            })
 
             const data = await res.json();
 
@@ -92,6 +94,13 @@ function Register() {
                         placeholder="Heslo"
                         value={heslo}
                         onChange={(e) => setHeslo(e.target.value)}
+                    />
+
+                    <input
+                        type="tel"
+                        placeholder="Telefon"
+                        value={telefon}
+                        onChange={(e) => setTelefon(e.target.value)}
                     />
 
                     <button type="submit">

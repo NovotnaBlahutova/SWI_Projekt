@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import { AuthContext } from "../context/AuthContext.jsx";
+import { API_BASE_URL } from '../apiConfig';
 import "./Checkout.css";
 
 function Checkout() {
+    const { user } = useContext(AuthContext);
     const { cart, setCart } = useContext(CartContext);
 
     const [orderData, setOrderData] = useState(null);
@@ -30,10 +33,7 @@ function Checkout() {
     const totalPrice = totalProducts + deliveryPrice;
 
     const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value,
-        });
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
@@ -54,15 +54,21 @@ function Checkout() {
         }
 
         const order = {
-            items: cart,
-            customer: form,
-            total: totalPrice,
+            userId: user.id,
+            deliveryAddress: `${form.address}, ${form.city}, ${form.zip}, ${form.country}`,
+            notes: "",
+            items: cart.map(item => ({
+                productId: item.id,
+                quantity: item.quantity,
+                unitPrice: item.cena,
+                totalPrice: item.cena * item.quantity,
+            }))
         };
 
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("http://localhost:8080/orders", {
+            const res = await fetch(`${API_BASE_URL}/orders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -78,8 +84,7 @@ function Checkout() {
                 return;
             }
 
-            // úspěch
-            setOrderData(order);
+            setOrderData({ items: cart, total: totalPrice });
             setOrderDone(true);
             setCart([]);
         } catch (err) {
@@ -91,17 +96,10 @@ function Checkout() {
     if (orderDone && orderData) {
         return (
             <div className="order-page">
-
-                <h1 className="order-title">
-                    Děkujeme za objednávku!
-                </h1>
-
-                <p className="order-sub">
-                    Vaše objednávka byla úspěšně vytvořena.
-                </p>
+                <h1 className="order-title">Děkujeme za objednávku!</h1>
+                <p className="order-sub">Vaše objednávka byla úspěšně vytvořena.</p>
 
                 <div className="order-box">
-
                     <h2>Rekapitulace objednávky</h2>
 
                     <div className="order-items">
@@ -111,10 +109,7 @@ function Checkout() {
                                     <span>{item.nazev}</span>
                                     <span>{item.quantity}×</span>
                                 </div>
-
-                                <div>
-                                    {item.cena * item.quantity} Kč
-                                </div>
+                                <div>{item.cena * item.quantity} Kč</div>
                             </div>
                         ))}
                     </div>
@@ -123,7 +118,6 @@ function Checkout() {
                         <span>Celkem</span>
                         <span>{orderData.total} Kč</span>
                     </div>
-
                 </div>
             </div>
         );
@@ -131,22 +125,18 @@ function Checkout() {
 
     return (
         <div className="checkout-page">
-
             <h1 className="checkout-title">Pokladna</h1>
 
             <div className="checkout-layout">
 
-                {/* FORM */}
                 <form className="checkout-form" onSubmit={handleSubmit}>
                     <h2>Kontaktní údaje</h2>
-
                     <input name="name" placeholder="Jméno" onChange={handleChange} />
                     <input name="surname" placeholder="Příjmení" onChange={handleChange} />
                     <input name="email" placeholder="Email" onChange={handleChange} />
                     <input name="phone" placeholder="Telefon" onChange={handleChange} />
 
                     <h2>Adresa</h2>
-
                     <input name="address" placeholder="Ulice" onChange={handleChange} />
                     <input name="city" placeholder="Město" onChange={handleChange} />
                     <input name="zip" placeholder="PSČ" onChange={handleChange} />
@@ -157,27 +147,18 @@ function Checkout() {
                     </button>
                 </form>
 
-                {/* SUMMARY */}
                 <div className="checkout-summary">
-
                     <h2>Souhrn</h2>
-
                     {cart.map((item, i) => (
                         <div key={i}>
                             {item.nazev} ({item.quantity}×)
                         </div>
                     ))}
-
                     <div>Doprava: {deliveryPrice} Kč</div>
-
-                    <div className="total">
-                        Celkem: {totalPrice} Kč
-                    </div>
-
+                    <div className="total">Celkem: {totalPrice} Kč</div>
                 </div>
 
             </div>
-
         </div>
     );
 }
