@@ -1,0 +1,25 @@
+{
+  "name": "Boujee Eshop",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": { "version": "17" },
+    "ghcr.io/devcontainers/features/node:1": { "version": "18" },
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainers/features/common-utils:1": { "installZsh": true }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "pivotal.vscode-boot-dev-pack"
+      ]
+    }
+  },
+  // Instalaci MariaDB uděláme postaru, ale s kontrolou
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mariadb-server && cd frontend && npm install",
+  "postStartCommand": "sudo service mariadb start && mysql -e 'CREATE DATABASE IF NOT EXISTS fashion_eshop;'",
+  "portsAttributes": {
+    "8080": { "label": "Backend API", "visibility": "public" },
+    "5173": { "label": "Frontend Web", "visibility": "public" }
+  }
+}

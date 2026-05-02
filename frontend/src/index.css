@@ -1,0 +1,52 @@
+/* RESET */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* obrázky */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* odkazy */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== PRODUCTS PAGE (SAFE) ===== */
+
+.products-container {
+    padding: 40px 60px;
+}
+
+/* grid jen pro PRODUCTS (ne Bootstrap!) */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* scoped jen pro products stránku */
+.products-grid .product-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.products-grid .product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* placeholder */
+.image-placeholder {
+    height: 200px;
+    background: #ddd;
+    margin-bottom: 10px;
+}

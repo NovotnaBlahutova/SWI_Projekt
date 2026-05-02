@@ -1,0 +1,104 @@
+/* ===== PAGE ===== */
+
+.product-page {
+    padding: 80px 60px;
+}
+
+/* ===== LAYOUT ===== */
+
+.product-container {
+    display: flex;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ===== IMAGE ===== */
+
+.product-image img {
+    width: 500px;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+/* ===== INFO ===== */
+
+.product-info {
+    max-width: 400px;
+}
+
+.product-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.product-price {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.product-desc {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+/* ===== BUTTON ===== */
+
+.btn-add {
+    padding: 15px 40px;
+    background: black;
+    color: white;
+    border: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #b48a7c;
+}
+
+/* ===== ERROR ===== */
+
+.not-found {
+    text-align: center;
+    margin-top: 100px;
+}
+/* ===== SIZES ===== */
+
+.sizes {
+    margin-bottom: 30px;
+}
+
+.sizes-label {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.sizes-list {
+    display: flex;
+    gap: 10px;
+}
+
+.size-btn {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.size-btn:hover {
+    border-color: black;
+}
+
+.size-btn.active {
+    background: black;
+    color: white;
+    border-color: black;
+}

@@ -1,0 +1,270 @@
+/* ===== NAVBAR ===== */
+
+.navbar {
+    height: 80px;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    backdrop-filter: blur(6px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    width: 100%;
+    height: 100%;
+    padding: 0 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    letter-spacing: 1px;
+    color: #111;
+    font-weight: 600;
+}
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.icon {
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    color: #222;
+}
+
+.icon:hover {
+    color: #b48a7c;
+    transform: translateY(-2px) scale(1.05);
+}
+
+
+/* ===== DROPDOWN MENU ===== */
+
+.dropdown-menu {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+
+    background: #ffffff;
+
+    display: none;
+    justify-content: center;
+
+    padding-top: 60px;
+
+    z-index: 950;
+
+    overflow-y: auto;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+
+    animation: fadeDown 0.35s ease;
+}
+
+.dropdown-menu.open {
+    display: flex;
+}
+
+/* animace */
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* layout */
+.dropdown-inner {
+    display: flex;
+    gap: 120px;
+    max-width: 1000px;
+}
+
+/* sloupce */
+.menu-column {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+}
+
+/* NADPIS (WOMEN / MEN) */
+.menu-column h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+    color: #999;
+    font-weight: 500;
+}
+
+/* ===== LINKY ===== */
+
+.menu-link {
+    display: block;
+    text-decoration: none;   /*odstraní modré podtržení */
+    color: #222;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+
+    margin-bottom: 16px;
+
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+/* hover efekt */
+.menu-link:hover {
+    color: #000;
+    letter-spacing: 1px;
+}
+.overlay {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: rgba(0,0,0,0.2);
+    z-index: 940;
+}
+
+
+/* ===== SEARCH PANEL ===== */
+
+.search-panel {
+    position: fixed;
+    top: 80px;
+    left: 0;
+
+    width: 100%;
+    height: 0;
+
+    background: #ffffff;
+    border-top: 1px solid rgba(0,0,0,0.05);
+
+    overflow: hidden;
+    opacity: 0;
+
+    transition: all 0.45s cubic-bezier(.25,.1,.25,1);
+
+    z-index: 900;
+
+    pointer-events: none;
+}
+
+.search-panel.active {
+    height: calc(100vh - 80px);
+    opacity: 1;
+
+    padding: 50px 60px;
+
+    overflow-y: auto;
+
+    pointer-events: auto;
+}
+
+.search-big {
+    width: 100%;
+    padding: 18px;
+    font-size: 20px;
+
+    border: none;
+    border-bottom: 2px solid #111;
+    outline: none;
+
+    font-family: 'Inter', sans-serif;
+}
+
+.search-big:focus {
+    border-bottom-color: #b48a7c;
+}
+
+.search-results {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+}
+
+.product {
+    padding: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    transition: 0.25s ease;
+}
+
+.product:hover {
+    border-color: #b48a7c;
+    transform: translateY(-3px);
+}
+.cart-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+
+    background: black;
+    color: white;
+
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 50%;
+}
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-name {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+.user-name:hover {
+    color: #b48a7c;
+}
+
+.logout-text {
+    cursor: pointer;
+    color: #b48a7c;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.logout-text:hover {
+    text-decoration: underline;
+    color: black;
+}

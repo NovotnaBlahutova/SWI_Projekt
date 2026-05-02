@@ -1,0 +1,69 @@
+/* ===== FOOTER ===== */
+
+.footer {
+    background: #fff;
+    color: #111;
+    margin-top: 80px;
+    padding-top: 50px;
+    border-top: 1px solid #eee;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* sekce */
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-logo {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 10px;
+}
+
+/* odkazy */
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section li {
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.footer-section li:hover {
+    color: #666;
+}
+
+/* social */
+.socials {
+    display: flex;
+    gap: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.socials svg:hover {
+    color: #666;
+}
+
+/* spodní část */
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}

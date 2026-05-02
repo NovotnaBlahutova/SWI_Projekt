@@ -1,0 +1,293 @@
+/* ===== HERO ===== */
+
+.hero {
+    height: 80vh;
+    background-image: url("../assets/images/mothers_day.webp");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.3);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+}
+
+.hero-overlay h1 {
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+.hero-overlay p {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.hero-overlay button {
+    padding: 12px 25px;
+    border: none;
+    background: white;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.hero-overlay button:hover {
+    background: #eee;
+}
+
+
+/* ===== KATEGORIE SEKCE ===== */
+
+.category-card-clean {
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.category-card-clean img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+}
+
+.category-card-clean:hover {
+    transform: translateY(-5px);
+}
+
+.category-card-clean h5 {
+    margin-top: 10px;
+    font-weight: 500;
+}
+.category-card-clean {
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+    padding: 10px;
+}
+.category-card-clean {
+    background: white;
+}
+
+/* ===== VIDEO SEKCE ===== */
+
+.video-section {
+    position: relative;
+    height: 70vh;
+    margin-top: 80px;
+    overflow: visible;
+}
+
+/* video pozadí */
+.video-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* overlay */
+.video-overlay {
+    position: relative;
+    z-index: 2;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,0.3);
+    color: white;
+    text-align: center;
+}
+
+.video-overlay h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.video-overlay p {
+    margin-bottom: 20px;
+}
+
+.video-overlay button {
+    padding: 10px 20px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+/* ===== PRODUKTY ===== */
+
+.product-card {
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.product-card img {
+    height: 300px;
+    object-fit: cover;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.price {
+    font-weight: bold;
+    margin-top: 5px;
+}
+.product-card {
+    background: #fff;
+}
+/* ===== BANNER ===== */
+
+.quote-banner {
+    margin: 80px 0;
+    padding: 60px 20px;
+
+    text-align: center;
+    background: #f8f8f8;
+}
+
+.quote-banner p {
+    font-size: 26px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+/* badge */
+.product-card {
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    background: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+/* ===== SPRING HERO ===== */
+
+.spring-hero {
+    height: 70vh;
+    margin-top: 80px;
+
+    background-image: url("../assets/images/summer_collection.jpg");
+    background-size: cover;
+    background-position: center;
+
+    position: relative;
+}
+
+.spring-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.3);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+}
+
+.spring-overlay h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.spring-overlay p {
+    margin-bottom: 20px;
+}
+
+.spring-overlay button {
+    padding: 12px 25px;
+    border: none;
+    background: white;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ===== SUMMER HERO ===== */
+
+.summer-hero {
+    height: 70vh;
+    margin-top: 80px;
+
+    background-size: cover;
+    background-position: center;
+
+    position: relative;
+}
+
+.summer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.3);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    text-align: center;
+}
+
+.summer-overlay h2 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+.summer-overlay p {
+    margin-bottom: 20px;
+}
+
+.summer-overlay button {
+    padding: 12px 25px;
+    border: none;
+    background: white;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+

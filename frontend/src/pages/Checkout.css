@@ -1,0 +1,291 @@
+.checkout-page {
+    padding: 80px 60px;
+}
+
+/* TITLE */
+.checkout-title {
+    text-align: center;
+    margin-bottom: 50px;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+}
+
+/* LAYOUT */
+.checkout-layout {
+    display: flex;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* FORM */
+.checkout-form {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.checkout-form h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+/* INPUTS */
+.checkout-form input {
+    padding: 14px;
+    border: 1px solid #e5e5e5;
+    outline: none;
+    transition: 0.25s;
+}
+
+.checkout-form input:focus {
+    border-color: black;
+}
+
+/* BUTTON */
+.checkout-form button {
+    padding: 16px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+.checkout-form button:hover {
+    background: #b48a7c;
+}
+
+/* ===== OPTION LIST (NEW) ===== */
+
+.option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.option-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 14px 16px;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+
+    cursor: pointer;
+    transition: 0.2s;
+    background: white;
+}
+
+/* TEXT */
+.option-row h3 {
+    font-size: 15px;
+    margin-bottom: 2px;
+}
+
+.option-row p {
+    font-size: 13px;
+    color: #777;
+}
+
+/* RIGHT SIDE (price) */
+.option-row span {
+    font-weight: 500;
+}
+
+/* HOVER */
+.option-row:hover {
+    border-color: black;
+    background: #fafafa;
+}
+
+/* ACTIVE */
+.option-row.active {
+    border: 2px solid #b48a7c;
+    background: #fff;
+}
+
+/* ===== SUMMARY ===== */
+.checkout-summary {
+    flex: 1;
+    border: 1px solid #eee;
+    padding: 30px;
+    height: fit-content;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+.checkout-summary h2 {
+    margin-bottom: 20px;
+}
+
+/* ITEMS */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* TOTAL */
+.total {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* SUCCESS */
+.checkout-success {
+    text-align: center;
+    margin-top: 120px;
+}
+
+.checkout-success h1 {
+    margin-bottom: 10px;
+}
+
+/* ===== STRIPE STYLE ===== */
+
+.card-box {
+    border: 1px solid #e5e5e5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.card-input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.card-input:focus {
+    border-color: black;
+}
+
+.card-row {
+    display: flex;
+    gap: 10px;
+}
+
+.checkout-submit {
+    margin-top: 30px;
+    padding: 16px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.checkout-submit:hover {
+    background: #b48a7c;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .checkout-layout {
+        flex-direction: column;
+    }
+
+    .checkout-page {
+        padding: 60px 20px;
+    }
+}
+/* SUCCESS PAGE */
+
+.order-page {
+    padding: 80px 60px;
+    text-align: center;
+}
+
+.order-title {
+    font-size: 42px;
+    margin-bottom: 10px;
+    font-family: 'Playfair Display', serif;
+}
+
+.order-sub {
+    color: #777;
+    margin-bottom: 40px;
+}
+.order-box {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #eee;
+    padding: 30px;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+}
+
+/* TITLE */
+.order-box h2 {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* ITEMS */
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT SIDE */
+.order-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-name {
+    font-weight: 500;
+}
+
+.order-qty {
+    font-size: 13px;
+    color: #777;
+}
+
+/* PRICE */
+.order-price {
+    font-weight: 500;
+}
+
+/* DIVIDER */
+.order-divider {
+    height: 1px;
+    background: #eee;
+    margin: 20px 0;
+}
+
+/* TOTAL */
+.order-total-row {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
+}

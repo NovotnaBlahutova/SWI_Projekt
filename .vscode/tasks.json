@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Backend",
+      "type": "shell",
+      // Příkaz čeká, dokud se na localhost:3306 neobjeví aktivita
+      "command": "until nc -z localhost 3306; do echo 'Čekám na MariaDB...'; sleep 1; done && cd backend && mvn spring-boot:run",
+      "isBackground": true,
+      "runOptions": { "runOn": "folderOpen" }
+    },
+    {
+      "label": "Start Frontend",
+      "type": "shell",
+      "command": "cd frontend && npm run dev",
+      "isBackground": true,
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}
